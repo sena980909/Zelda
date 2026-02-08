@@ -516,8 +516,9 @@ this.placedBomb={x:this.x,y:this.y,timer:120,exploding:0}}}
 let dx=0,dy=0;
 if(Inp.u){dy=-1;this.dir=DU}if(Inp.d){dy=1;this.dir=DD}
 if(Inp.l){dx=-1;this.dir=DL}if(Inp.r){dx=1;this.dir=DR}
-if(dx&&!dy){const g=Math.round(this.y/TILE)*TILE,d=g-this.y;if(Math.abs(d)>0&&Math.abs(d)<=8)this.y+=Math.sign(d)*Math.min(2,Math.abs(d))}
-if(dy&&!dx){const g=Math.round(this.x/TILE)*TILE,d=g-this.x;if(Math.abs(d)>0&&Math.abs(d)<=8)this.x+=Math.sign(d)*Math.min(2,Math.abs(d))}
+const room=w.room();
+if(dx&&!dy&&room){const g=Math.round(this.y/TILE)*TILE,d=g-this.y;if(Math.abs(d)>0&&Math.abs(d)<=8){const ny=this.y+Math.sign(d)*Math.min(2,Math.abs(d));if(!this.collAt(this.x,ny,room,w))this.y=ny}}
+if(dy&&!dx&&room){const g=Math.round(this.x/TILE)*TILE,d=g-this.x;if(Math.abs(d)>0&&Math.abs(d)<=8){const nx=this.x+Math.sign(d)*Math.min(2,Math.abs(d));if(!this.collAt(nx,this.y,room,w))this.x=nx}}
 if(dx||dy){this.st="mv";this.walkT++;this.tryMv(dx*this.spd,dy*this.spd,w)}else{this.st="idle";this.walkT=0}}
 draw(c){if(this.fl)return;const x=Math.round(this.x),y=PLAY_Y+Math.round(this.y);
 const wk=this.st==="mv"?Math.floor(this.walkT/8)%2:0;
@@ -686,9 +687,16 @@ popup(t,x,y,col){this.popups.push({text:t,x,y,life:50,col:col||"#FFF"})},
 drop(x,y,isBoss){if(isBoss){this.pk.push(new Pickup(x,y,"heartC"));return}const r=Math.random();if(r<.4)this.pk.push(new Pickup(x,y,"heart"));else if(r<.7)this.pk.push(new Pickup(x,y,"rupee"));else if(r<.8)this.pk.push(new Pickup(x,y,"bomb"))},
 
 startTrans(dir){const nx=this.w.rx+DX[dir],ny=this.w.ry+DY[dir];if(!this.w.roomAt(nx,ny))return false;Snd.trans();this.mode="TRANS";this.trans={dir,prog:0,dur:30,fx:this.w.rx,fy:this.w.ry,tx:nx,ty:ny};return true},
-finishTrans(){const t=this.trans;this.w.rx=t.tx;this.w.ry=t.ty;const p=this.pl;if(t.dir===DU)p.y=(ROWS-2)*TILE;if(t.dir===DD)p.y=TILE;if(t.dir===DL)p.x=(COLS-2)*TILE;if(t.dir===DR)p.x=TILE;this.trans=null;this.mode="PLAY";this.loadRoom();this.pt=[]},
-enterDungeon(){Snd.door();this.flash=15;this.w.inD=true;this.w.rx=0;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.loadRoom()},
-exitDungeon(){Snd.door();this.flash=15;this.w.inD=false;this.w.rx=3;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.loadRoom()},
+finishTrans(){const t=this.trans;this.w.rx=t.tx;this.w.ry=t.ty;const p=this.pl;
+if(t.dir===DU){p.y=(ROWS-2)*TILE;p.x=Math.max(TILE,Math.min(p.x,(COLS-2)*TILE))}
+if(t.dir===DD){p.y=TILE;p.x=Math.max(TILE,Math.min(p.x,(COLS-2)*TILE))}
+if(t.dir===DL){p.x=(COLS-2)*TILE;p.y=Math.max(TILE,Math.min(p.y,(ROWS-2)*TILE))}
+if(t.dir===DR){p.x=TILE;p.y=Math.max(TILE,Math.min(p.y,(ROWS-2)*TILE))}
+p.placedBomb=null;this.trans=null;this.mode="PLAY";this.loadRoom();this.pt=[];
+const room=this.w.room();if(room&&p.collAt(p.x,p.y,room,this.w)){if(t.dir===DU||t.dir===DD)p.x=7*TILE+1;else p.y=5*TILE+1;
+if(p.collAt(p.x,p.y,room,this.w)){for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++)if(!this.w.solid(room[r][c])){p.x=c*TILE+1;p.y=r*TILE+1;if(!p.collAt(p.x,p.y,room,this.w))return}}}},
+enterDungeon(){Snd.door();this.flash=15;this.w.inD=true;this.w.rx=0;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
+exitDungeon(){Snd.door();this.flash=15;this.w.inD=false;this.w.rx=3;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
 
 update(){
 this.tick++;
@@ -813,8 +821,9 @@ const room=this.w.room();if(room)this.drawRoom(room,0,0);
 for(const pk of this.pk)pk.draw(cx);for(const e of this.en)e.draw(cx);this.pl.draw(cx);for(const pt of this.pt)pt.draw(cx);
 for(const tp of this.popups){cx.globalAlpha=tp.life/50;cx.fillStyle=tp.col;cx.font="bold 8px monospace";cx.fillText(tp.text,tp.x,PLAY_Y+tp.y);cx.globalAlpha=1}
 // Dark room overlay
-if(this.isDark){cx.fillStyle="rgba(0,0,0,.85)";const p=this.pl;cx.fillRect(0,PLAY_Y,W,PLAY_H);
-cx.save();cx.beginPath();cx.arc(p.x+p.w/2,PLAY_Y+p.y+p.h/2,30,0,Math.PI*2);cx.clip();if(room)this.drawRoom(room,0,0);for(const e of this.en)e.draw(cx);this.pl.draw(cx);cx.restore()}
+if(this.isDark){const p=this.pl,px=p.x+p.w/2,py=PLAY_Y+p.y+p.h/2;cx.fillStyle="rgba(0,0,0,.85)";cx.fillRect(0,PLAY_Y,W,PLAY_H);
+cx.save();cx.beginPath();cx.arc(px,py,50,0,Math.PI*2);cx.clip();if(room)this.drawRoom(room,0,0);for(const e of this.en)e.draw(cx);for(const pk of this.pk)pk.draw(cx);this.pl.draw(cx);cx.restore();
+if(room){cx.fillStyle="#555";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const t=room[r][c];if(t===TD||t===TL||t===TSH){const tx=c*TILE+6,ty=PLAY_Y+r*TILE+6;cx.fillRect(tx,ty,4,4)}}}}
 if(this.flash>0){cx.globalAlpha=this.flash/15;cx.fillStyle="#FFF";cx.fillRect(0,PLAY_Y,W,PLAY_H);cx.globalAlpha=1}
 this.drawHUD();this.dialog.draw(cx);
 if(this.mode==="INV"){cx.fillStyle="rgba(0,0,0,.85)";cx.fillRect(0,PLAY_Y,W,PLAY_H);cx.strokeStyle="#B8860B";cx.lineWidth=2;cx.strokeRect(8,PLAY_Y+8,W-16,PLAY_H-16);cx.lineWidth=1;cx.textAlign="center";cx.fillStyle="#FFD700";cx.font="bold 12px monospace";cx.fillText("- INVENTORY -",W/2,PLAY_Y+28);cx.font="9px monospace";const items=[];if(this.pl.hasSword)items.push("SWORD (A: Z/J)");
