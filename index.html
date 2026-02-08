@@ -672,7 +672,7 @@ const isBridge=!this.w.inD&&this.w.rx===2&&this.w.ry===1;
 if(isRoom2)this.isDark=true;
 if(!this.w.cleared[k]){
 let hasSpawn=false;for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TS)hasSpawn=true;
-if(hasSpawn&&this.w.inD&&!this.w.shutterState[k]){this.w.shutterState[k]="active";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TD)room[r][c]=TSH}
+if(hasSpawn&&this.w.inD&&!isRoom2&&!this.w.shutterState[k]){this.w.shutterState[k]="active";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TD)room[r][c]=TSH}
 for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){if(room[r][c]===TS){room[r][c]=T;
 if(isBoss)this.en.push(new Boss(c*TILE-6,r*TILE-6));
 else if(isRoom2)this.en.push(new Keese(c*TILE+1,r*TILE+1));
@@ -821,9 +821,11 @@ const room=this.w.room();if(room)this.drawRoom(room,0,0);
 for(const pk of this.pk)pk.draw(cx);for(const e of this.en)e.draw(cx);this.pl.draw(cx);for(const pt of this.pt)pt.draw(cx);
 for(const tp of this.popups){cx.globalAlpha=tp.life/50;cx.fillStyle=tp.col;cx.font="bold 8px monospace";cx.fillText(tp.text,tp.x,PLAY_Y+tp.y);cx.globalAlpha=1}
 // Dark room overlay
-if(this.isDark){const p=this.pl,px=p.x+p.w/2,py=PLAY_Y+p.y+p.h/2;cx.fillStyle="rgba(0,0,0,.85)";cx.fillRect(0,PLAY_Y,W,PLAY_H);
-cx.save();cx.beginPath();cx.arc(px,py,50,0,Math.PI*2);cx.clip();if(room)this.drawRoom(room,0,0);for(const e of this.en)e.draw(cx);for(const pk of this.pk)pk.draw(cx);this.pl.draw(cx);cx.restore();
-if(room){cx.fillStyle="#555";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const t=room[r][c];if(t===TD||t===TL||t===TSH){const tx=c*TILE+6,ty=PLAY_Y+r*TILE+6;cx.fillRect(tx,ty,4,4)}}}}
+if(this.isDark){const p=this.pl,px=p.x+p.w/2,py=PLAY_Y+p.y+p.h/2;cx.fillStyle="rgba(0,0,0,.92)";cx.fillRect(0,PLAY_Y,W,PLAY_H);
+cx.save();cx.beginPath();cx.arc(px,py,52,0,Math.PI*2);cx.clip();if(room)this.drawRoom(room,0,0);for(const e of this.en)e.draw(cx);for(const pk of this.pk)pk.draw(cx);this.pl.draw(cx);cx.restore();
+for(const e of this.en){if(e instanceof Keese&&e.alive&&!e.fl){cx.fillStyle="#FF0";cx.fillRect(e.x+4,PLAY_Y+e.y+4,2,1);cx.fillRect(e.x+7,PLAY_Y+e.y+4,2,1)}}
+if(room){cx.fillStyle="#444";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const t=room[r][c];if(t===TD||t===TL){cx.fillRect(c*TILE+6,PLAY_Y+r*TILE+6,4,4)}}}
+cx.fillStyle="#666";cx.font="10px monospace";cx.textAlign="center";cx.fillText("EXIT \u2192",W-30,PLAY_Y+PLAY_H/2);cx.textAlign="left"}
 if(this.flash>0){cx.globalAlpha=this.flash/15;cx.fillStyle="#FFF";cx.fillRect(0,PLAY_Y,W,PLAY_H);cx.globalAlpha=1}
 this.drawHUD();this.dialog.draw(cx);
 if(this.mode==="INV"){cx.fillStyle="rgba(0,0,0,.85)";cx.fillRect(0,PLAY_Y,W,PLAY_H);cx.strokeStyle="#B8860B";cx.lineWidth=2;cx.strokeRect(8,PLAY_Y+8,W-16,PLAY_H-16);cx.lineWidth=1;cx.textAlign="center";cx.fillStyle="#FFD700";cx.font="bold 12px monospace";cx.fillText("- INVENTORY -",W/2,PLAY_Y+28);cx.font="9px monospace";const items=[];if(this.pl.hasSword)items.push("SWORD (A: Z/J)");
