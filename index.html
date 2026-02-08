@@ -10,17 +10,17 @@
 html,body{width:100%;height:100%;background:#000;overflow:hidden}
 body{display:flex;flex-direction:column;align-items:center;justify-content:center}
 canvas{image-rendering:pixelated;image-rendering:crisp-edges;flex-shrink:0}
-#pad{display:none;position:fixed;bottom:0;left:0;right:0;height:44vh;min-height:170px;z-index:10;touch-action:none;user-select:none;-webkit-user-select:none;background:rgba(0,0,0,.85)}
-.dpad{position:absolute;left:16px;bottom:16px;width:130px;height:130px}
-.dpad b{position:absolute;width:42px;height:42px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.7)}
-.dpad b:active,.dpad b.act{background:rgba(255,255,255,.45)}
-.dpad .du{left:44px;top:0}.dpad .dd{left:44px;bottom:0}.dpad .dl{left:0;top:44px}.dpad .dr{right:0;top:44px}
-.btns{position:absolute;right:16px;bottom:16px}
-.btns b{display:inline-block;width:56px;height:56px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);border-radius:50%;text-align:center;line-height:56px;font-size:15px;font-family:monospace;font-weight:bold;color:rgba(255,255,255,.7);margin-left:10px}
-.btns b:active,.btns b.act{background:rgba(255,255,255,.45)}
-.mbar{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;gap:12px}
-.mbar b{display:inline-block;width:48px;height:28px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;text-align:center;line-height:28px;font-size:10px;font-family:monospace;color:rgba(255,255,255,.5)}
-.mbar b:active,.mbar b.act{background:rgba(255,255,255,.35)}
+#pad{display:none;position:fixed;bottom:0;left:0;right:0;height:140px;z-index:10;touch-action:none;user-select:none;-webkit-user-select:none;background:linear-gradient(transparent,rgba(0,0,0,.9) 12%)}
+.dpad{position:absolute;left:12px;bottom:10px;width:120px;height:120px}
+.dpad b{position:absolute;width:38px;height:38px;background:rgba(255,255,255,.13);border:2px solid rgba(255,255,255,.22);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(255,255,255,.65)}
+.dpad b:active,.dpad b.act{background:rgba(255,255,255,.4)}
+.dpad .du{left:41px;top:0}.dpad .dd{left:41px;bottom:0}.dpad .dl{left:0;top:41px}.dpad .dr{right:0;top:41px}
+.btns{position:absolute;right:12px;bottom:30px}
+.btns b{display:inline-block;width:50px;height:50px;background:rgba(255,255,255,.13);border:2px solid rgba(255,255,255,.22);border-radius:50%;text-align:center;line-height:50px;font-size:14px;font-family:monospace;font-weight:bold;color:rgba(255,255,255,.65);margin-left:8px}
+.btns b:active,.btns b.act{background:rgba(255,255,255,.4)}
+.mbar{position:absolute;left:50%;bottom:50px;transform:translateX(-50%);display:flex;gap:10px}
+.mbar b{display:inline-block;width:42px;height:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;text-align:center;line-height:22px;font-size:8px;font-family:monospace;color:rgba(255,255,255,.4)}
+.mbar b:active,.mbar b.act{background:rgba(255,255,255,.3)}
 @media(pointer:coarse),(max-width:600px){#pad{display:block}}
 </style>
 </head>
@@ -39,7 +39,7 @@ const T=0,TW=1,TWA=2,TS=3,TD=4,TST=5,TTR=6,TSA=7,TL=8,TSH=9,TCA=10,TBR=11,TBW=12
 
 const cv=document.getElementById("game"),cx=cv.getContext("2d");
 cv.width=W;cv.height=H;
-function resize(){const mob=window.matchMedia("(pointer:coarse)").matches||innerWidth<=600;const ah=mob?innerHeight*.55:innerHeight;const s=Math.max(1,Math.floor(Math.min(innerWidth/W,ah/H)));cv.style.width=W*s+"px";cv.style.height=H*s+"px"}
+function resize(){const mob=window.matchMedia("(pointer:coarse)").matches||innerWidth<=600;const ah=mob?innerHeight-145:innerHeight;const s=Math.max(1,Math.floor(Math.min(innerWidth/W,ah/H)));cv.style.width=W*s+"px";cv.style.height=H*s+"px"}
 addEventListener("resize",resize);resize();
 
 // ═══ INPUT ═══
