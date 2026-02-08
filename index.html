@@ -798,7 +798,7 @@ for(let i=0;i<60;i++){const sx=(i*47+t)%W,sy=(i*31+t*.3)%H;cx.fillStyle="rgba(34
 cx.textAlign="center";cx.fillStyle="#8B6914";cx.font="bold 14px monospace";cx.fillText("THE  LEGEND  OF",W/2,55);cx.fillStyle="#FFD700";cx.font="bold 28px monospace";cx.fillText("Z E L D A",W/2,88);
 cx.fillStyle="#FFD700";for(let i=0;i<24;i++){const hw=Math.floor(i/2)+1;cx.fillRect(W/2-hw,110+i,hw*2,1)}cx.fillStyle="#FFEF80";for(let i=4;i<20;i++){const hw=Math.max(1,Math.floor(i/3));cx.fillRect(W/2-hw+1,110+i,hw,1)}
 if(Math.floor(t/30)%2===0){cx.fillStyle="#FFF";cx.font="10px monospace";cx.fillText("PRESS ENTER TO START",W/2,165)}
-cx.fillStyle="#AAA";cx.font="8px monospace";cx.fillText("WASD/ARROWS: MOVE",W/2,190);cx.fillText("Z/J: SWORD   X/K: B-ITEM",W/2,202);cx.fillText("ENTER: INVENTORY",W/2,214);cx.textAlign="left";return}
+cx.fillStyle="#AAA";cx.font="8px monospace";cx.fillText("WASD/ARROWS: MOVE",W/2,190);cx.fillText("Z/J: SWORD   X/K: B-ITEM",W/2,202);cx.fillText("ENTER: INVENTORY",W/2,214);cx.fillStyle="#777";cx.font="7px monospace";cx.fillText("CREATED BY ONEIZIC",W/2,232);cx.textAlign="left";return}
 if(this.mode==="OVER"){cx.fillStyle="#000";cx.fillRect(0,0,W,H);const dt=this.deathAnim;
 if(dt<60){cx.save();cx.translate(W/2,H/2);cx.rotate(dt*.2);cx.fillStyle="#228B22";cx.fillRect(-7,-7,14,14);cx.fillStyle="#F4C078";cx.fillRect(-4,-3,8,6);cx.restore()}
 if(dt>40){cx.fillStyle="rgba(0,0,0,"+(Math.min(1,(dt-40)/40)*.8)+")";cx.fillRect(0,0,W,H)}
