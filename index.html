@@ -394,6 +394,9 @@ this.sDG(-1,1,D_ROOM2);this.sDG(1,1,D_ROOM3);
 this.sDG(0,2,D_ROOM4);this.sDG(1,2,D_ITEM);
 this.sDG(0,3,D_BOSS);
 this.rx=2;this.ry=3;
+this.owOrig={};this.dgOrig={};
+for(const k in this.ow)this.owOrig[k]=clone(this.ow[k]);
+for(const k in this.dg)this.dgOrig[k]=clone(this.dg[k]);
 this.items={};this.cleared={};this.shutterState={};
 // Room items
 this.addItem("dg_1_1",7,5,"key");   // Room3: key
@@ -595,11 +598,13 @@ draw(c){if(!this.active)return;c.fillStyle="rgba(0,0,0,.85)";c.fillRect(16,PLAY_
 const G={
 w:null,pl:null,en:[],pk:[],pt:[],mode:"TITLE",trans:null,dialog:new Dialog(),flash:0,popups:[],tick:0,deathAnim:0,isDark:false,
 
-init(){this.w=new World();this.pl=new Player(7*TILE+1,5*TILE+1);this.en=[];this.pk=[];this.pt=[];this.mode="TITLE";this.tick=0;this.deathAnim=0;this.dialog=new Dialog();this.loadRoom()},
+init(){this.w=new World();this.pl=new Player(7*TILE+1,5*TILE+1);this.en=[];this.pk=[];this.pt=[];this.mode="TITLE";this.tick=0;this.deathAnim=0;this.dialog=new Dialog();this.hintShown=false;this.loadRoom()},
 
 loadRoom(){
-this.en=[];this.pk=[];this.isDark=false;const room=this.w.room();if(!room)return;
-const k=this.w.rk();
+this.en=[];this.pk=[];this.isDark=false;const k=this.w.rk();
+// Restore spawn points for uncleared rooms
+if(!this.w.cleared[k]){const orig=(this.w.inD?this.w.dgOrig:this.w.owOrig)[this.w.rx+","+this.w.ry];const rm=this.w.room();if(orig&&rm)for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(orig[r][c]===TS&&rm[r][c]===T)rm[r][c]=TS}
+const room=this.w.room();if(!room)return;
 const isBoss=this.w.inD&&this.w.rx===0&&this.w.ry===3;
 const isRoom2=this.w.inD&&this.w.rx===-1&&this.w.ry===1;
 const isRoom3=this.w.inD&&this.w.rx===1&&this.w.ry===1;
@@ -635,6 +640,7 @@ if(this.mode==="WIN"){if(Inp.start)this.init();return}
 if(this.mode==="INV"){if(Inp.start||Inp.sel)this.mode="PLAY";if(Inp.pr("ArrowLeft")||Inp.pr("KeyA"))this.pl.bSel=0;if(Inp.pr("ArrowRight")||Inp.pr("KeyD")){if(this.pl.hasBoom)this.pl.bSel=1}return}
 if(this.mode==="TRANS"){this.trans.prog++;if(this.trans.prog>=this.trans.dur)this.finishTrans();return}
 if(this.dialog.active){this.dialog.update();return}
+if(!this.hintShown&&!this.w.inD&&this.w.rx===2&&this.w.ry===2){this.hintShown=true;this.dialog.start("YOU HAVE NO WEAPON! FIND THE CAVE TO THE WEST.",null)}
 if(Inp.start){this.mode="INV";return}
 if(this.flash>0)this.flash--;
 const p=this.pl,w=this.w;p.update(w);
