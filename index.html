@@ -120,14 +120,15 @@ function mk(d){const r=[];for(let i=0;i<ROWS;i++)r.push(d.slice(i*COLS,i*COLS+CO
 function clone(r){return r.map(row=>[...row])}
 
 // ══════════════════════════════════════════════════
-// OVERWORLD v4.0 LAYOUT
+// OVERWORLD v5.0 LAYOUT
 // [Row 0] (0,0)숲미로  (1,0)호수  (2,0)산입구  (3,0)던전1
 // [Row 1] (0,1)비밀상점 (1,1)평원적 (2,1)다리   (3,1)바위산
 // [Row 2] (0,2)해변    (1,2)검동굴 (2,2)평원시작 (3,2)숲입구
 // [Row 3] (0,3)막다른길 (1,3)해변   (2,3)START  (3,3)막다른길
+// [Row 4] (0,4)늪지대  (1,4)강건너기 (2,4)남쪽평원 (3,4)던전2
 // ══════════════════════════════════════════════════
 
-// (2,3) START - safe zone, north only
+// (2,3) START - safe zone
 const OW_START=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -139,18 +140,18 @@ const OW_START=mk([
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1]);
 // (2,2) Plains start area
 const OW_PLAINS=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,3,0,0,0,0,3,0,0,0,0,1,
+1,0,0,0,0,3,0,0,0,0,0,0,0,0,0,1,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,3,0,0,0,0,3,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,3,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1]);
 // (1,2) Sword cave
@@ -184,7 +185,7 @@ const OW_FOREST_ENT=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
 1,0,0,6,6,0,0,0,0,0,0,6,6,0,0,1,
 1,0,6,0,0,6,0,0,0,0,6,0,0,6,0,1,
-1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,6,0,0,6,0,0,0,0,0,0,6,0,0,6,1,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,6,0,0,6,0,0,0,0,0,0,6,0,0,6,1,
@@ -203,8 +204,8 @@ const OW_DEAD_SW=mk([
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
 1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,
-1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1]);
 // (1,3) Beach south
 const OW_BEACH_S=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
@@ -217,7 +218,7 @@ const OW_BEACH_S=mk([
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,7,0,0,0,0,0,0,0,0,0,0,0,0,7,1,
 1,7,7,0,0,0,0,0,0,0,0,0,0,7,7,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1]);
 // (3,3) Dead end SE
 const OW_DEAD_SE=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
@@ -230,7 +231,7 @@ const OW_DEAD_SE=mk([
 1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,
 1,0,1,1,1,0,0,0,0,0,0,1,1,1,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1]);
 // (1,1) Plains enemies
 const OW_PLAINS_E=mk([
 1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
@@ -437,33 +438,157 @@ const D_BOSS=mk([
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,1,1,1,1,1,1,4,4,1,1,1,1,1,1,1]);
 
+// ══════════════════════════════════════════════════
+// OVERWORLD ROW 4 (south expansion)
+// [Row 4] (0,4)늪지대  (1,4)강건너기 (2,4)남쪽평원 (3,4)던전2입구
+// ══════════════════════════════════════════════════
+// (0,4) Swamp
+const OW_SWAMP=mk([
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
+1,6,2,2,0,0,0,0,0,0,0,0,2,2,6,1,
+1,2,2,0,0,0,0,0,0,0,0,0,0,2,2,1,
+1,2,0,0,0,3,0,0,0,0,3,0,0,0,2,1,
+1,0,0,0,6,0,0,0,0,0,0,6,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,6,0,0,0,0,0,0,6,0,0,0,1,
+1,2,0,0,0,0,0,0,0,0,0,0,0,0,2,1,
+1,2,2,0,0,0,0,0,0,0,0,0,0,2,2,1,
+1,6,2,2,0,0,0,0,0,0,0,0,2,2,6,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+// (1,4) River crossing
+const OW_RIVER=mk([
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
+1,0,0,0,0,2,2,0,0,2,2,0,0,0,0,1,
+1,0,0,0,2,2,0,0,0,0,2,2,0,0,0,1,
+1,0,3,2,2,0,0,11,11,0,0,2,2,0,0,1,
+1,0,0,2,0,0,0,11,11,0,0,0,2,0,0,1,
+0,0,0,2,0,0,0,11,11,0,0,0,2,0,0,0,
+1,0,0,2,0,0,0,11,11,0,0,0,2,0,0,1,
+1,0,0,2,2,0,0,11,11,0,0,2,2,3,0,1,
+1,0,0,0,2,2,0,0,0,0,2,2,0,0,0,1,
+1,0,0,0,0,2,2,0,0,2,2,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+// (2,4) South plains
+const OW_S_PLAINS=mk([
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,
+1,0,0,0,0,3,0,0,0,0,3,0,0,0,0,1,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,
+1,0,0,0,0,3,0,0,0,0,3,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+// (3,4) Dungeon 2 entrance
+const OW_D2_ENT=mk([
+1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,
+1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,
+1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
+1,0,0,0,0,0,0,5,0,0,0,0,0,0,0,1,
+1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,
+0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,3,0,0,3,0,0,0,0,0,1,
+1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
+1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+
+// ══════════════════════════════════════════════════
+// DUNGEON 2 - Serpent's Lair
+//         [Boss Room(10,2)]
+//             |
+//         [Hall(10,1)]
+//             |
+// [Side(11,0)]--[Entry(10,0)]
+// ══════════════════════════════════════════════════
+const D2_ENTRY=mk([
+1,1,1,1,1,1,1,4,4,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,3,0,0,3,0,0,0,0,0,1,
+4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,
+1,0,0,0,0,0,0,5,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+const D2_SIDE=mk([
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,
+1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,
+1,0,0,0,0,0,0,0,0,3,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+const D2_HALL=mk([
+1,1,1,1,1,1,1,8,8,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,
+1,0,0,0,0,3,0,0,0,0,3,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,3,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,4,4,1,1,1,1,1,1,1]);
+const D2_BOSS=mk([
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,3,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,4,4,1,1,1,1,1,1,1]);
+
 // ═══ WORLD ═══
 class World{
 constructor(){
-this.ow={};this.dg={};this.inD=false;
-// v4.0 layout
+this.ow={};this.dg={};this.inD=false;this.dungLv=0;
+// v5.0 layout
 this.sOW(0,0,OW_FOREST_MAZE);this.sOW(1,0,OW_LAKE);this.sOW(2,0,OW_MOUNTAIN);this.sOW(3,0,OW_DUNGEON_ENT);
 this.sOW(0,1,OW_SHOP);this.sOW(1,1,OW_PLAINS_E);this.sOW(2,1,OW_BRIDGE);this.sOW(3,1,OW_ROCKY);
 this.sOW(0,2,OW_BEACH);this.sOW(1,2,OW_CAVE);this.sOW(2,2,OW_PLAINS);this.sOW(3,2,OW_FOREST_ENT);
 this.sOW(0,3,OW_DEAD_SW);this.sOW(1,3,OW_BEACH_S);this.sOW(2,3,OW_START);this.sOW(3,3,OW_DEAD_SE);
-// Dungeon eagle shape: entry(0,0) central(0,1) room2(-1,1) room3(1,1) room4(0,2) item(1,2) boss(0,3)
-this.sDG(0,0,D_ENTRY);this.sDG(0,1,D_CENTRAL);
-this.sDG(-1,1,D_ROOM2);this.sDG(1,1,D_ROOM3);
-this.sDG(0,2,D_ROOM4);this.sDG(1,2,D_ITEM);
-this.sDG(0,3,D_BOSS);
+this.sOW(0,4,OW_SWAMP);this.sOW(1,4,OW_RIVER);this.sOW(2,4,OW_S_PLAINS);this.sOW(3,4,OW_D2_ENT);
+// Dungeon 1 eagle shape (entry=south, boss=north)
+this.sDG(0,3,D_ENTRY);this.sDG(0,2,D_CENTRAL);
+this.sDG(-1,2,D_ROOM2);this.sDG(1,2,D_ROOM3);
+this.sDG(0,1,D_ROOM4);this.sDG(1,1,D_ITEM);
+this.sDG(0,0,D_BOSS);
+// Dungeon 2 serpent's lair (entry=south, boss=north)
+this.sDG(10,2,D2_ENTRY);this.sDG(9,2,D2_SIDE);
+this.sDG(10,1,D2_HALL);this.sDG(10,0,D2_BOSS);
 this.rx=2;this.ry=3;
 this.owOrig={};this.dgOrig={};
 for(const k in this.ow)this.owOrig[k]=clone(this.ow[k]);
 for(const k in this.dg)this.dgOrig[k]=clone(this.dg[k]);
 this.items={};this.cleared={};this.shutterState={};
 // Room items
-this.addItem("dg_1_1",7,5,"key");   // Room3: key
-this.addItem("dg_-1_1",7,5,"compass"); // Room2: compass
-this.addItem("dg_0_2",7,5,"map");   // Room4: map
-this.addItem("dg_1_2",7,5,"boom");  // Item room: boomerang
-this.addItem("dg_0_3",7,4,"triforce"); // Boss: triforce
+this.addItem("dg_1_2",7,5,"key");   // Room3: key
+this.addItem("dg_-1_2",7,5,"compass"); // Room2: compass
+this.addItem("dg_0_1",7,5,"map");   // Room4: map
+this.addItem("dg_1_1",7,5,"boom");  // Item room: boomerang
+this.addItem("dg_0_0",7,4,"triforce"); // Boss: triforce
 this.addItem("ow_1_0",7,8,"rupee");this.addItem("ow_1_0",8,8,"rupee");
 this.addItem("ow_1_3",7,3,"rupee");this.addItem("ow_1_3",8,3,"rupee");this.addItem("ow_1_3",9,3,"rupee");
+// Dungeon 2 items
+this.addItem("dg_9_2",7,5,"key"); // D2 Side: key
+this.addItem("dg_10_1",7,5,"map"); // D2 Hall: map
+this.addItem("dg_10_0",7,4,"triforce2"); // D2 Boss: triforce piece 2
+// Row 4 rupees
+this.addItem("ow_0_4",7,5,"rupee");this.addItem("ow_0_4",8,5,"rupee");this.addItem("ow_0_4",9,5,"rupee");
 }
 sOW(x,y,r){this.ow[x+","+y]=clone(r)}
 sDG(x,y,r){this.dg[x+","+y]=clone(r)}
@@ -495,8 +620,8 @@ for(let rr=r1;rr<=r2;rr++)for(let cc=c1;cc<=c2;cc++){if(rr<0||rr>=ROWS||cc<0||cc
 
 // ═══ PLAYER ═══
 class Player extends Ent{
-constructor(x,y){super(x,y);this.mhp=8;this.hp=8;this.spd=1.5;this.atkT=0;this.sword=null;
-this.rupees=15;this.keys=0;this.bombs=3;this.hasSword=false;this.hasBoom=false;this.hasMap=false;this.hasCompass=false;this.hasTriforce=false;this.hasRing=false;
+constructor(x,y){super(x,y);this.mhp=10;this.hp=10;this.spd=1.5;this.atkT=0;this.sword=null;
+this.rupees=25;this.keys=0;this.bombs=3;this.hasSword=false;this.hasBoom=false;this.hasMap=false;this.hasCompass=false;this.hasTriforce=false;this.hasTriforce2=false;this.hasRing=false;
 this.boom=null;this.boomCD=0;this.walkT=0;this.bSel=0;this.placedBomb=null}
 update(w){this.updKB(w);if(this.st==="kb")return;
 if(this.atkT>0){this.atkT--;if(this.atkT<=0){this.sword=null;this.st="idle"}return}
@@ -540,23 +665,23 @@ else{const fl=b.timer<40&&b.timer%6<3;c.fillStyle=fl?"#FFF":"#333";c.fillRect(bx
 
 // ═══ ENEMIES ═══
 class Octorok extends Ent{
-constructor(x,y){super(x,y);this.hp=1;this.mhp=1;this.spd=.5;this.mvT=0;this.pT=0;this.proj=null;this.sCD=0}
+constructor(x,y){super(x,y);this.hp=1;this.mhp=1;this.spd=.4;this.mvT=0;this.pT=0;this.proj=null;this.sCD=0}
 update(w,pl){this.updKB(w);if(this.st==="kb")return;if(this.stunT>0){this.stunT--;return}
 if(this.sCD>0)this.sCD--;
-if(this.proj){const p=this.proj;p.x+=DX[p.d]*1.8;p.y+=DY[p.d]*1.8;p.life--;
+if(this.proj){const p=this.proj;p.x+=DX[p.d]*1.4;p.y+=DY[p.d]*1.4;p.life--;
 if(p.life<=0||p.x<-8||p.x>COLS*TILE||p.y<-8||p.y>ROWS*TILE)this.proj=null;
 else{const room=w.room();if(room){const tc=Math.floor((p.x+3)/TILE),tr=Math.floor((p.y+3)/TILE);if(tc<0||tc>=COLS||tr<0||tr>=ROWS||w.solid(room[tr][tc]))this.proj=null}}}
 if(this.pT>0){this.pT--;if(this.pT<=0){if(Math.random()<.4){const a=Math.atan2(pl.cy-this.cy,pl.cx-this.cx);this.dir=Math.abs(Math.cos(a))>Math.abs(Math.sin(a))?(Math.cos(a)>0?DR:DL):(Math.sin(a)>0?DD:DU)}else this.dir=Math.floor(Math.random()*4);this.mvT=60+Math.floor(Math.random()*60)}return}
 if(this.mvT>0){this.mvT--;const ox=this.x,oy=this.y;this.tryMv(DX[this.dir]*this.spd,DY[this.dir]*this.spd,w);if(Math.abs(this.x-ox)<.1&&Math.abs(this.y-oy)<.1)this.mvT=0;
-if(this.mvT<=0){this.pT=30+Math.floor(Math.random()*40);if(!this.proj&&this.sCD<=0&&Math.random()<.5){this.proj={x:this.cx-3,y:this.cy-3,w:6,h:6,d:this.dir,life:80};this.sCD=120}}}else this.pT=15}
+if(this.mvT<=0){this.pT=30+Math.floor(Math.random()*40);if(!this.proj&&this.sCD<=0&&Math.random()<.3){this.proj={x:this.cx-3,y:this.cy-3,w:6,h:6,d:this.dir,life:70};this.sCD=180}}}else this.pT=15}
 draw(c){if(this.fl)return;const x=this.x,y=PLAY_Y+this.y;c.fillStyle=this.stunT>0?"#FF8080":"#CC3333";c.fillRect(x+2,y+1,10,12);c.fillRect(x+1,y+3,12,8);c.fillRect(x,y+5,14,4);c.fillStyle="#FFF";c.fillRect(x+3,y+4,3,3);c.fillRect(x+8,y+4,3,3);c.fillStyle="#222";const dx=DX[this.dir],dy=DY[this.dir];c.fillRect(x+4+dx,y+5+dy,1,1);c.fillRect(x+9+dx,y+5+dy,1,1);c.fillStyle="#800";c.fillRect(x+5,y+8,4,2);c.fillStyle=this.stunT>0?"#FF8080":"#CC3333";const t=Math.floor(Date.now()/200)%2;c.fillRect(x+1,y+12,3,2-t);c.fillRect(x+5,y+12,2,1+t);c.fillRect(x+8,y+12,2,1+t);c.fillRect(x+10,y+12,3,2-t);
 if(this.proj){const p=this.proj;c.fillStyle="#808080";c.beginPath();c.arc(p.x+3,PLAY_Y+p.y+3,4,0,Math.PI*2);c.fill();c.fillStyle="#A0A0A0";c.beginPath();c.arc(p.x+3,PLAY_Y+p.y+2,2,0,Math.PI*2);c.fill()}}}
 
 class Tektite extends Ent{
-constructor(x,y){super(x,y);this.hp=1;this.mhp=1;this.jT=0;this.jCD=90+Math.floor(Math.random()*90);this.vx=0;this.vy=0;this.grounded=true}
+constructor(x,y){super(x,y);this.hp=1;this.mhp=1;this.jT=0;this.jCD=120+Math.floor(Math.random()*120);this.vx=0;this.vy=0;this.grounded=true}
 update(w,pl){this.updKB(w);if(this.st==="kb")return;if(this.stunT>0){this.stunT--;return}
-if(this.grounded){this.jCD--;if(this.jCD<=0){const a=Math.atan2(pl.cy-this.cy,pl.cx-this.cx)+((Math.random()-.5)*.8);this.vx=Math.cos(a)*2.5;this.vy=-3.5;this.grounded=false;this.jT=0;this.jCD=40+Math.floor(Math.random()*60)}}
-else{this.jT++;this.vy+=.15;this.x+=this.vx;this.y+=this.vy;if(this.y>=(ROWS-2)*TILE||this.jT>60){this.grounded=true;this.vy=0;this.vx=0;this.y=Math.min(this.y,(ROWS-2)*TILE);this.jCD=60+Math.floor(Math.random()*80)}}}
+if(this.grounded){this.jCD--;if(this.jCD<=0){const a=Math.atan2(pl.cy-this.cy,pl.cx-this.cx)+((Math.random()-.5)*1.2);this.vx=Math.cos(a)*1.3;this.vy=-2.0;this.grounded=false;this.jT=0;this.jCD=60+Math.floor(Math.random()*80)}}
+else{this.jT++;this.vy+=.12;this.x+=this.vx;this.y+=this.vy;if(this.x<TILE){this.x=TILE;this.vx*=-.5}if(this.x>(COLS-2)*TILE){this.x=(COLS-2)*TILE;this.vx*=-.5}if(this.y<0){this.y=0;this.vy=0}if(this.y>=(ROWS-2)*TILE||this.jT>50){this.grounded=true;this.vy=0;this.vx=0;this.y=Math.min(this.y,(ROWS-2)*TILE);this.jCD=90+Math.floor(Math.random()*100)}}}
 draw(c){if(this.fl)return;const x=Math.round(this.x),y=PLAY_Y+Math.round(this.y);c.fillStyle=this.stunT>0?"#FFA080":"#E06030";c.fillRect(x+3,y+2,8,10);c.fillRect(x+5,y+1,4,12);c.fillStyle="#FFF";c.fillRect(x+4,y+4,3,2);c.fillRect(x+8,y+4,3,2);c.fillStyle="#000";c.fillRect(x+5,y+4,1,1);c.fillRect(x+9,y+4,1,1);c.fillStyle="#C05020";const t=this.grounded?Math.floor(Date.now()/300)%2:1;c.fillRect(x,y+4+t,3,2);c.fillRect(x+11,y+4+t,3,2);c.fillRect(x+1,y+8-t,2,2);c.fillRect(x+11,y+8-t,2,2);if(!this.grounded){c.fillStyle="rgba(0,0,0,.3)";c.fillRect(x+2,PLAY_Y+Math.round(this.y)+14,10,2)}}}
 
 class Stalfos extends Ent{
@@ -605,7 +730,8 @@ if(this.sCD>0)this.sCD--;
 if(this.proj){const p=this.proj;p.x+=p.dx*2;p.y+=p.dy*2;p.life--;if(p.life<=0)this.proj=null}
 if(this.hidden){this.hideT--;if(this.hideT<=0){this.hidden=false;this.showT=90;
 this.x=pl.x+((Math.random()-.5)*80);this.y=pl.y+((Math.random()-.5)*60);
-this.x=Math.max(TILE,Math.min(this.x,(COLS-2)*TILE));this.y=Math.max(TILE,Math.min(this.y,(ROWS-2)*TILE));Snd.splash()}}
+this.x=Math.max(TILE*2,Math.min(this.x,(COLS-3)*TILE));this.y=Math.max(TILE*2,Math.min(this.y,(ROWS-3)*TILE));
+const room=w.room();if(room){const zc=Math.floor(this.x/TILE),zr=Math.floor(this.y/TILE);if(zr>=0&&zr<ROWS&&zc>=0&&zc<COLS&&w.solid(room[zr][zc])){this.x=this.baseX;this.y=this.baseY}};Snd.splash()}}
 else{this.showT--;if(this.showT===45&&!this.proj){const a=Math.atan2(pl.cy-this.cy,pl.cx-this.cx);this.proj={x:this.cx-3,y:this.cy-3,w:6,h:6,dx:Math.cos(a),dy:Math.sin(a),life:90}}
 if(this.showT<=0){this.hidden=true;this.hideT=90+Math.floor(Math.random()*60)}}}
 draw(c){if(this.proj){const p=this.proj;c.fillStyle="#FF4400";c.beginPath();c.arc(p.x+3,PLAY_Y+p.y+3,4,0,Math.PI*2);c.fill();c.fillStyle="#FFAA00";c.beginPath();c.arc(p.x+3,PLAY_Y+p.y+2,2,0,Math.PI*2);c.fill()}
@@ -638,7 +764,8 @@ else if(this.type==="heartC"){c.fillStyle="#E02020";c.fillRect(x,dy,12,12);c.fil
 else if(this.type==="map"){c.fillStyle="#C8A060";c.fillRect(x+1,dy+1,8,8);c.fillStyle="#8B4513";c.fillRect(x+2,dy+3,6,1);c.fillRect(x+2,dy+5,4,1)}
 else if(this.type==="compass"){c.fillStyle="#E02020";c.fillRect(x+3,dy,4,10);c.fillRect(x,dy+3,10,4);c.fillStyle="#FFF";c.fillRect(x+4,dy+1,2,2)}
 else if(this.type==="boom"){c.fillStyle="#8B4513";c.fillRect(x+1,dy+2,8,2);c.fillRect(x+3,dy,2,6);c.fillStyle="#D2B48C";c.fillRect(x+4,dy+2,1,1)}
-else if(this.type==="bomb"){c.fillStyle="#333";c.fillRect(x+2,dy+3,6,6);c.fillRect(x+4,dy+1,2,8);c.fillStyle="#666";c.fillRect(x+4,dy,2,2)}}}
+else if(this.type==="bomb"){c.fillStyle="#333";c.fillRect(x+2,dy+3,6,6);c.fillRect(x+4,dy+1,2,8);c.fillStyle="#666";c.fillRect(x+4,dy,2,2)}
+else if(this.type==="triforce2"){c.fillStyle="#4488FF";for(let i=0;i<12;i++){const hw=Math.floor(i/2)+1;c.fillRect(x+5-hw,dy+i,hw*2,1)}c.fillStyle="#88BBFF";for(let i=2;i<10;i++){const hw=Math.max(1,Math.floor(i/3));c.fillRect(x+5-hw+1,dy+i,hw,1)}}}}
 
 class Ptcl{
 constructor(x,y,col){this.x=x;this.y=y;this.dx=(Math.random()-.5)*3;this.dy=(Math.random()-.5)*3;this.life=20+Math.floor(Math.random()*15);this.col=col;this.sz=2+Math.floor(Math.random()*3)}
@@ -664,23 +791,32 @@ this.en=[];this.pk=[];this.isDark=false;const k=this.w.rk();
 // Restore spawn points for uncleared rooms
 if(!this.w.cleared[k]){const orig=(this.w.inD?this.w.dgOrig:this.w.owOrig)[this.w.rx+","+this.w.ry];const rm=this.w.room();if(orig&&rm)for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(orig[r][c]===TS&&rm[r][c]===T)rm[r][c]=TS}
 const room=this.w.room();if(!room)return;
-const isBoss=this.w.inD&&this.w.rx===0&&this.w.ry===3;
-const isRoom2=this.w.inD&&this.w.rx===-1&&this.w.ry===1;
-const isRoom3=this.w.inD&&this.w.rx===1&&this.w.ry===1;
-const isRoom4=this.w.inD&&this.w.rx===0&&this.w.ry===2;
+const isBoss=this.w.inD&&this.w.rx===0&&this.w.ry===0;
+const isRoom2=this.w.inD&&this.w.rx===-1&&this.w.ry===2;
+const isRoom3=this.w.inD&&this.w.rx===1&&this.w.ry===2;
+const isRoom4=this.w.inD&&this.w.rx===0&&this.w.ry===1;
 const isBridge=!this.w.inD&&this.w.rx===2&&this.w.ry===1;
-if(isRoom2)this.isDark=true;
+const isD2Boss=this.w.inD&&this.w.rx===10&&this.w.ry===0;
+const isD2Entry=this.w.inD&&this.w.rx===10&&this.w.ry===2;
+const isD2Side=this.w.inD&&this.w.rx===9&&this.w.ry===2;
+const isD2Hall=this.w.inD&&this.w.rx===10&&this.w.ry===1;
+const isDark2=this.w.inD&&this.w.rx===-1&&this.w.ry===2;
+if(isDark2)this.isDark=true;
 if(!this.w.cleared[k]){
 let hasSpawn=false;for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TS)hasSpawn=true;
-if(hasSpawn&&this.w.inD&&!isRoom2&&!this.w.shutterState[k]){this.w.shutterState[k]="active";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TD)room[r][c]=TSH}
+if(hasSpawn&&this.w.inD&&!isDark2&&!this.w.shutterState[k]){this.w.shutterState[k]="active";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TD)room[r][c]=TSH}
 for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){if(room[r][c]===TS){room[r][c]=T;
 if(isBoss)this.en.push(new Boss(c*TILE-6,r*TILE-6));
+else if(isD2Boss){const b=new Boss(c*TILE-6,r*TILE-6);b.hp=10;b.mhp=10;b.sT=60;this.en.push(b)}
 else if(isRoom2)this.en.push(new Keese(c*TILE+1,r*TILE+1));
 else if(isRoom3)this.en.push(new Stalfos(c*TILE+1,r*TILE+1));
 else if(isRoom4)this.en.push(new Goriya(c*TILE+1,r*TILE+1));
+else if(isD2Entry)this.en.push(new Goriya(c*TILE+1,r*TILE+1));
+else if(isD2Side)this.en.push(Math.random()<.5?new Stalfos(c*TILE+1,r*TILE+1):new Keese(c*TILE+1,r*TILE+1));
+else if(isD2Hall)this.en.push(Math.random()<.5?new Goriya(c*TILE+1,r*TILE+1):new Stalfos(c*TILE+1,r*TILE+1));
 else if(isBridge)this.en.push(new Zola(c*TILE+1,r*TILE+1));
 else if(this.w.inD)this.en.push(Math.random()<.5?new Stalfos(c*TILE+1,r*TILE+1):new Keese(c*TILE+1,r*TILE+1));
-else{const roll=Math.random();if(roll<.5)this.en.push(new Octorok(c*TILE+1,r*TILE+1));else this.en.push(new Tektite(c*TILE+1,r*TILE+1))}}}}
+else{const earlyArea=!this.w.inD&&(this.w.ry>=2);const roll=Math.random();if(earlyArea){if(roll<.8)this.en.push(new Octorok(c*TILE+1,r*TILE+1));else this.en.push(new Tektite(c*TILE+1,r*TILE+1))}else{if(roll<.4)this.en.push(new Octorok(c*TILE+1,r*TILE+1));else this.en.push(new Tektite(c*TILE+1,r*TILE+1))}}}}}
 const items=this.w.getItems();for(const it of items){const p=new Pickup(it.c*TILE+3,it.r*TILE+3,it.t);this.pk.push(p);it._pk=p}},
 
 popup(t,x,y,col){this.popups.push({text:t,x,y,life:50,col:col||"#FFF"})},
@@ -695,8 +831,12 @@ if(t.dir===DR){p.x=TILE;p.y=Math.max(TILE,Math.min(p.y,(ROWS-2)*TILE))}
 p.placedBomb=null;this.trans=null;this.mode="PLAY";this.loadRoom();this.pt=[];
 const room=this.w.room();if(room&&p.collAt(p.x,p.y,room,this.w)){if(t.dir===DU||t.dir===DD)p.x=7*TILE+1;else p.y=5*TILE+1;
 if(p.collAt(p.x,p.y,room,this.w)){for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++)if(!this.w.solid(room[r][c])){p.x=c*TILE+1;p.y=r*TILE+1;if(!p.collAt(p.x,p.y,room,this.w))return}}}},
-enterDungeon(){Snd.door();this.flash=15;this.w.inD=true;this.w.rx=0;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
-exitDungeon(){Snd.door();this.flash=15;this.w.inD=false;this.w.rx=3;this.w.ry=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
+enterDungeon(lv){Snd.door();this.flash=15;this.w.inD=true;this.w.dungLv=lv||1;
+if(lv===2){this.w.rx=10;this.w.ry=2}else{this.w.rx=0;this.w.ry=3}
+this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
+exitDungeon(){Snd.door();this.flash=15;this.w.inD=false;
+if(this.w.dungLv===2){this.w.rx=3;this.w.ry=4}else{this.w.rx=3;this.w.ry=0}
+this.w.dungLv=0;this.pl.x=7*TILE+1;this.pl.y=3*TILE;this.pl.placedBomb=null;this.loadRoom()},
 
 update(){
 this.tick++;
@@ -719,7 +859,7 @@ for(let i=0;i<12;i++){this.pt.push(new Ptcl(bb.x+7,bb.y+7,"#FF8800"));this.pt.pu
 if(bb.exploding>0){bb.exploding--;if(bb.exploding<=0)p.placedBomb=null}}
 const room=w.room();const pc=Math.floor((p.x+p.w/2)/TILE),pr=Math.floor((p.y+p.h/2)/TILE);
 if(room&&pc>=0&&pc<COLS&&pr>=0&&pr<ROWS){const t=room[pr][pc];
-if(t===TST){if(w.inD)this.exitDungeon();else this.enterDungeon();return}
+if(t===TST){if(w.inD)this.exitDungeon();else if(w.rx===3&&w.ry===4)this.enterDungeon(2);else this.enterDungeon(1);return}
 if(t===TD)room[pr][pc]=T;
 if(t===TCA){if(!w.inD&&w.rx===1&&w.ry===2&&!p.hasSword){this.dialog.start("IT'S DANGEROUS TO GO ALONE! TAKE THIS.",()=>{p.hasSword=true;Snd.secret();this.popup("GOT SWORD!",p.cx-20,p.cy-16,"#FFD700")});room[pr][pc]=T}
 else if(!w.inD&&w.rx===0&&w.ry===1){room[pr][pc]=T;if(!p.hasRing&&p.rupees>=250)this.dialog.start("BLUE RING - 250 RUPEES. DEFENSE UP! PRESS Z.",()=>{p.rupees-=250;p.hasRing=true;p.mhp+=4;p.hp=p.mhp;Snd.secret();this.popup("BLUE RING!",p.cx-20,p.cy-16,"#1E90FF")});
@@ -731,6 +871,7 @@ else if(p.y<0){if(!this.startTrans(DU))p.y=0}
 else if(p.y+p.h>ROWS*TILE){if(!this.startTrans(DD))p.y=ROWS*TILE-p.h}
 if(this.mode!=="PLAY")return;
 for(let i=this.en.length-1;i>=0;i--){const e=this.en[i];e.update(w,p);
+if(e.alive&&!(e instanceof Zola&&e.hidden)){e.x=Math.max(0,Math.min(e.x,(COLS-1)*TILE));e.y=Math.max(0,Math.min(e.y,(ROWS-1)*TILE))}
 if(p.sword&&e.alive&&e.inv<=0){const s=p.sword;if(s.x<e.x+e.w&&s.x+s.w>e.x&&s.y<e.y+e.h&&s.y+s.h>e.y){e.dmg(1,p.dir);Snd.hit();for(let j=0;j<4;j++)this.pt.push(new Ptcl(e.cx,e.cy,"#FFF"))}}
 if(p.boom&&e.alive&&e.stunT<=0){const b=p.boom;if(b.x<e.x+e.w&&b.x+b.w>e.x&&b.y<e.y+e.h&&b.y+b.h>e.y){e.stunT=90;Snd.hit();p.boom=null}}
 if(e.alive&&p.inv<=0&&!(e instanceof Zola&&e.hidden)&&p.hits(e)){const hd=p.cx<e.cx?DL:p.cx>e.cx?DR:p.cy<e.cy?DU:DD;p.dmg(1,hd);Snd.hurt()}
@@ -743,7 +884,9 @@ if(this.en.length===0&&room){const k=w.rk();if(!w.cleared[k]){w.cleared[k]=true;
 if(w.shutterState[k]==="active"){w.shutterState[k]="open";for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TSH){room[r][c]=TD;Snd.door()}}
 for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(room[r][c]===TL){room[r][c]=TD;Snd.door()}
 // Room3 drops key on clear
-if(this.w.inD&&this.w.rx===1&&this.w.ry===1&&!this.w.items["dg_1_1_clr"]){this.w.items["dg_1_1_clr"]=true;this.pk.push(new Pickup(7*TILE+3,5*TILE+3,"key"))}
+if(this.w.inD&&this.w.rx===1&&this.w.ry===2&&!this.w.items["dg_1_2_clr"]){this.w.items["dg_1_2_clr"]=true;this.pk.push(new Pickup(7*TILE+3,5*TILE+3,"key"))}
+// D2 Side drops key on clear
+if(this.w.inD&&this.w.rx===9&&this.w.ry===2&&!this.w.items["dg_9_2_clr"]){this.w.items["dg_9_2_clr"]=true;this.pk.push(new Pickup(7*TILE+3,5*TILE+3,"key"))}
 if(this.isDark)this.isDark=false}}
 if(room)for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){if(Math.abs(dr)+Math.abs(dc)!==1)continue;const nr=pr+dr,nc=pc+dc;if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&room[nr][nc]===TL&&p.keys>0){const dx2=nc*TILE+8,dy2=nr*TILE+8;if(Math.abs(p.cx-dx2)<TILE&&Math.abs(p.cy-dy2)<TILE){room[nr][nc]=T;p.keys--;Snd.door();this.popup("OPEN!",dx2,dy2,"#FFD700")}}}
 for(const pk of this.pk){pk.update();if(pk.got)continue;if(p.x<pk.x+pk.w&&p.x+p.w>pk.x&&p.y<pk.y+pk.h&&p.y+p.h>pk.y){pk.got=true;Snd.item();
@@ -755,7 +898,8 @@ else if(pk.type==="map"){p.hasMap=true;Snd.secret();this.popup("MAP!",pk.x,pk.y,
 else if(pk.type==="compass"){p.hasCompass=true;Snd.secret();this.popup("COMPASS!",pk.x,pk.y,"#E02020")}
 else if(pk.type==="boom"){p.hasBoom=true;p.bSel=1;Snd.secret();this.popup("BOOMERANG!",pk.x,pk.y,"#8B4513")}
 else if(pk.type==="bomb"){p.bombs=Math.min(p.bombs+1,8);this.popup("+1 BOMB",pk.x,pk.y,"#666")}
-else if(pk.type==="triforce"){p.hasTriforce=true;this.mode="WIN";Snd.fanfare()}
+else if(pk.type==="triforce"){p.hasTriforce=true;if(p.hasTriforce2){this.mode="WIN";Snd.fanfare()}else{Snd.secret();this.dialog.start("TRIFORCE PIECE 1! FIND THE SECOND PIECE IN DUNGEON 2 TO THE SOUTH.",null)}}
+else if(pk.type==="triforce2"){p.hasTriforce2=true;if(p.hasTriforce){this.mode="WIN";Snd.fanfare()}else{Snd.secret();this.dialog.start("TRIFORCE PIECE 2! FIND THE FIRST PIECE IN DUNGEON 1 TO THE NORTH.",null)}}
 const items=w.items[w.rk()]||[];for(const it of items)if(it._pk===pk)it.got=true}}
 for(let i=this.pt.length-1;i>=0;i--){this.pt[i].update();if(this.pt[i].life<=0)this.pt.splice(i,1)}
 for(let i=this.popups.length-1;i>=0;i--){this.popups[i].y-=.5;this.popups[i].life--;if(this.popups[i].life<=0)this.popups.splice(i,1)}
@@ -781,15 +925,16 @@ for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const t=room[r][c];if(t===T||t===
 drawHUD(){const p=this.pl;cx.fillStyle="#000";cx.fillRect(0,0,W,HUD_H);
 cx.fillStyle="#1A1A1A";cx.fillRect(8,4,72,48);cx.strokeStyle="#444";cx.strokeRect(8,4,72,48);
 const map=this.w.inD?this.w.dg:this.w.ow;
+const d2=this.w.inD&&this.w.dungLv===2;
 for(const k in map){const[mx,my]=k.split(",").map(Number);let rx,ry;
-if(this.w.inD){rx=32+mx*14;ry=18+my*8}else{rx=12+mx*16;ry=8+my*10}
+if(this.w.inD){let dmx=d2?mx-9:mx;let dmy=my;if(d2&&mx<9)continue;if(!d2&&mx>=9)continue;rx=32+dmx*14;ry=18+dmy*8}else{rx=12+mx*14;ry=6+my*8}
 const vis=this.w.inD?p.hasMap:true;if(!vis)continue;
 cx.fillStyle=this.w.cleared[(this.w.inD?"dg":"ow")+"_"+mx+"_"+my]?"#3A5A3A":"#555";
-cx.fillRect(rx,ry,this.w.inD?12:14,this.w.inD?6:8)}
-if(this.w.inD&&p.hasCompass){cx.fillStyle="#F00";cx.fillRect(32+0*14+4,18+3*8+1,4,4)} // boss marker
-let crx,cry;if(this.w.inD){crx=32+this.w.rx*14;cry=18+this.w.ry*8}else{crx=12+this.w.rx*16;cry=8+this.w.ry*10}
-cx.fillStyle="#22DD22";cx.fillRect(crx,cry,this.w.inD?12:14,this.w.inD?6:8);
-if(this.w.inD){cx.fillStyle="#FFF";cx.font="7px monospace";cx.fillText("LEVEL-1",14,54)}
+cx.fillRect(rx,ry,this.w.inD?12:12,this.w.inD?6:6)}
+if(this.w.inD&&p.hasCompass){if(d2){cx.fillStyle="#F00";cx.fillRect(32+(10-9)*14+4,18+0*8+1,4,4)}else{cx.fillStyle="#F00";cx.fillRect(32+0*14+4,18+0*8+1,4,4)}}
+let crx,cry;if(this.w.inD){let dmx=d2?this.w.rx-9:this.w.rx;crx=32+dmx*14;cry=18+this.w.ry*8}else{crx=12+this.w.rx*14;cry=6+this.w.ry*8}
+cx.fillStyle="#22DD22";cx.fillRect(crx,cry,this.w.inD?12:12,this.w.inD?6:6);
+if(this.w.inD){cx.fillStyle="#FFF";cx.font="7px monospace";cx.fillText(d2?"LEVEL-2":"LEVEL-1",14,54)}
 cx.fillStyle="#1A1A1A";cx.fillRect(88,4,64,48);cx.strokeStyle="#444";cx.strokeRect(88,4,64,48);cx.strokeRect(92,8,24,20);cx.strokeRect(124,8,24,20);
 cx.fillStyle="#888";cx.font="7px monospace";cx.fillText("B",100,36);cx.fillText("A",136,36);
 if(p.bSel===1&&p.hasBoom){cx.fillStyle="#8B4513";cx.fillRect(100,12,8,2);cx.fillRect(103,10,2,6)}
@@ -813,9 +958,10 @@ if(dt>40){cx.fillStyle="rgba(0,0,0,"+(Math.min(1,(dt-40)/40)*.8)+")";cx.fillRect
 if(dt>80){cx.textAlign="center";cx.fillStyle="#C02020";cx.font="bold 22px monospace";cx.fillText("GAME OVER",W/2,H/2-10);if(dt>100){cx.fillStyle="#FFF";cx.font="10px monospace";cx.fillText("PRESS ENTER TO RETRY",W/2,H/2+20)}cx.textAlign="left"}return}
 if(this.mode==="WIN"){cx.fillStyle="#000";cx.fillRect(0,0,W,H);const t=this.tick;
 for(let i=0;i<30;i++){const sx=(i*37+t*2)%W,sy=(i*23+t)%H;cx.fillStyle="rgba(255,215,0,"+(0.1+Math.sin(t*.03+i)*.08)+")";cx.fillRect(sx,sy,4,4)}
-cx.textAlign="center";cx.fillStyle="#FFD700";cx.font="bold 18px monospace";cx.fillText("TRIFORCE GET!",W/2,H/2-30);
-cx.save();cx.translate(W/2,H/2+10);const sc=1+Math.sin(t*.05)*.15;cx.scale(sc,sc);cx.fillStyle="#FFD700";for(let i=0;i<18;i++){const hw=Math.floor(i/2)+1;cx.fillRect(-hw,i-9,hw*2,1)}cx.restore();
-cx.fillStyle="#FFF";cx.font="10px monospace";cx.fillText("YOU CONQUERED DUNGEON 1!",W/2,H/2+45);cx.fillStyle="#AAA";cx.fillText("THANKS FOR PLAYING!",W/2,H/2+60);cx.fillStyle="#888";cx.fillText("PRESS ENTER TO RESTART",W/2,H/2+80);cx.textAlign="left";return}
+cx.textAlign="center";cx.fillStyle="#FFD700";cx.font="bold 18px monospace";cx.fillText("TRIFORCE COMPLETE!",W/2,H/2-30);
+cx.save();cx.translate(W/2-14,H/2+10);const sc=1+Math.sin(t*.05)*.15;cx.scale(sc,sc);cx.fillStyle="#FFD700";for(let i=0;i<18;i++){const hw=Math.floor(i/2)+1;cx.fillRect(-hw,i-9,hw*2,1)}cx.restore();
+cx.save();cx.translate(W/2+14,H/2+10);cx.scale(sc,sc);cx.fillStyle="#4488FF";for(let i=0;i<18;i++){const hw=Math.floor(i/2)+1;cx.fillRect(-hw,i-9,hw*2,1)}cx.restore();
+cx.fillStyle="#FFF";cx.font="10px monospace";cx.fillText("YOU CONQUERED BOTH DUNGEONS!",W/2,H/2+45);cx.fillStyle="#AAA";cx.fillText("THANKS FOR PLAYING!",W/2,H/2+60);cx.fillStyle="#888";cx.fillText("PRESS ENTER TO RESTART",W/2,H/2+80);cx.textAlign="left";return}
 if(this.mode==="TRANS"){const tr=this.trans,pg=tr.prog/tr.dur;const from=this.w.roomAt(tr.fx,tr.fy),to=this.w.roomAt(tr.tx,tr.ty);let fx=0,fy=0,tox=0,toy=0;const pw=COLS*TILE,ph=ROWS*TILE;if(tr.dir===DL){fx=pg*pw;tox=fx-pw}else if(tr.dir===DR){fx=-pg*pw;tox=fx+pw}else if(tr.dir===DU){fy=pg*ph;toy=fy-ph}else{fy=-pg*ph;toy=fy+ph}cx.save();cx.beginPath();cx.rect(0,PLAY_Y,W,PLAY_H);cx.clip();if(from)this.drawRoom(from,fx,fy);if(to)this.drawRoom(to,tox,toy);cx.restore();this.drawHUD();return}
 const room=this.w.room();if(room)this.drawRoom(room,0,0);
 for(const pk of this.pk)pk.draw(cx);for(const e of this.en)e.draw(cx);this.pl.draw(cx);for(const pt of this.pt)pt.draw(cx);
@@ -831,6 +977,7 @@ this.drawHUD();this.dialog.draw(cx);
 if(this.mode==="INV"){cx.fillStyle="rgba(0,0,0,.85)";cx.fillRect(0,PLAY_Y,W,PLAY_H);cx.strokeStyle="#B8860B";cx.lineWidth=2;cx.strokeRect(8,PLAY_Y+8,W-16,PLAY_H-16);cx.lineWidth=1;cx.textAlign="center";cx.fillStyle="#FFD700";cx.font="bold 12px monospace";cx.fillText("- INVENTORY -",W/2,PLAY_Y+28);cx.font="9px monospace";const items=[];if(this.pl.hasSword)items.push("SWORD (A: Z/J)");
 const bName=this.pl.bSel===1?"BOOMERANG":"BOMB";items.push("B-ITEM: "+bName+" (X/K) [</>]");
 if(this.pl.hasBoom)items.push("  BOOMERANG"+(this.pl.bSel===1?" *":""));items.push("  BOMB x"+this.pl.bombs+(this.pl.bSel===0?" *":""));
+if(this.pl.hasTriforce)items.push("TRIFORCE PIECE 1");if(this.pl.hasTriforce2)items.push("TRIFORCE PIECE 2");
 if(this.pl.hasRing)items.push("BLUE RING (DEF UP)");if(this.pl.hasMap)items.push("DUNGEON MAP");if(this.pl.hasCompass)items.push("COMPASS");items.push("RUPEES: "+this.pl.rupees);items.push("KEYS: "+this.pl.keys);for(let i=0;i<items.length;i++){cx.fillStyle=i<3?"#88FF88":"#CCC";cx.fillText(items[i],W/2,PLAY_Y+50+i*14)}cx.fillStyle="#888";cx.font="8px monospace";cx.fillText("PRESS ENTER TO CLOSE",W/2,PLAY_Y+PLAY_H-20);cx.textAlign="left"}}
 };
 
